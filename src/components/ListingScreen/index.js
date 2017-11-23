@@ -5,18 +5,37 @@ import {
   StyleSheet,
   View,
   Text,
+  ScrollView,
+  Image,
+  Dimensions,
 } from 'react-native';
 
 import { getListing } from '../../actions/listing';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: 'white',
   },
-  text: {
-    fontSize: 16,
+  image: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width*4/7,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingBottom: 20,
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E2E2E2',
+  },
+  avatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 60,
+  },
+  info: {
+    flex: 1,
+    alignItems: 'center',
   },
 });
 
@@ -29,11 +48,19 @@ class ListingScreen extends Component {
     const listing = this.props.listing;
     if(!listing) return null;
 
+    const { image, host } = listing;
+
     const item = this.props.navigation.state.params.item;
     return (
-      <View style={styles.container}>
-        <Text style={styles.text}>{listing.host.full_name}</Text>
-      </View>
+      <ScrollView style= {styles.container}>
+        <Image source = {{uri: image}} style = {styles.image} />
+        <View style = {{padding: 30}}>
+          <View style = {styles.row}>
+            <Text style = {{flex: 1}}>{`Listed By ${host.full_name}`}</Text>
+            <Image source={{uri: host.avatar}} style = {styles.avatar} />
+          </View>
+        </View>
+      </ScrollView>
     );
   }
 }

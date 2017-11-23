@@ -30,7 +30,7 @@ export function normalizeListing(listing){
     host: listing.host ? {
       email: listing.host.email || '',
       full_name: listing.host.full_name || '',
-      avatar: listing.host.avatar || '',
+      avatar: listing.host.image || '',
     } : {
       email: '',
       full_name: '',
