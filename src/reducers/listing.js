@@ -1,7 +1,8 @@
-import { SET_LISTINGS } from '../actions/listing';
+import { SET_LISTINGS, SET_LISTING } from '../actions/listing';
 
 const initialState = {
-  listings: []
+  listings: [],
+  listing: null,
 };
 
 export default function(state = initialState, action){
@@ -9,6 +10,13 @@ export default function(state = initialState, action){
     return{
       ...state,
       listings: action.listings
+    }
+  }
+
+  if (action.type === SET_LISTING){
+    return{
+      ...state,
+      listing: action.listing
     }
   }
   return state;
