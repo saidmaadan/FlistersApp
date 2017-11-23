@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import { navigate } from '../../actions/nav';
+import { getListings } from '../../actions/listing';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,57 +36,24 @@ const styles = StyleSheet.create({
   }
 });
 
-const items = [
-  {
-    id: 1,
-    title: "Houston",
-    ApartmentType: "House",
-    image: {uri: 'https://s-media-cache-ak0.pinimg.com/originals/a8/6a/f7/a86af7857e40acb712bbdd0add98b18c.jpg'},
-    bedroom: 3,
-    price: 300,
-    instant: false
-  },
-  {
-    id: 2,
-    title: "Dallas",
-    ApartmentType: "Apartment",
-    image: {uri: 'http://jhmrad.com/wp-content/uploads/dream-home-design-cube-builders-developers-thrichur-kerala_328693-670x400.jpg'},
-    bedroom: 3,
-    price: 400,
-    instant: true
-  },
-  {
-    id: 3,
-    title: "Austin",
-    ApartmentType: "House",
-    image: {uri: 'http://2.bp.blogspot.com/-Gff78pPguVI/U8qWurvgjRI/AAAAAAAAnJ8/NupGL8kwH8c/s1600/ash-color-roof.jpg'},
-    bedroom: 3,
-    price: 450,
-    instant: false
-  },
-];
-
 class ExploreTab extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      items: items
-    };
+  componentWillMount(){
+    this.props.getListings();
   }
-
   onPress(item) {
     this.props.navigate({ routeName: "Detail", params: { item: item } });
   }
 
   render() {
+    const {listings} = this.props;
     return (
       <FlatList
         style={styles.container}
-        data={this.state.items}
+        data={ listings }
         renderItem={({item}) =>
           <TouchableOpacity onPress={() => this.onPress(item)} style={styles.item}>
-            <Image style={styles.image} source = {item.image} />
+            <Image style={styles.image} source = {{uri: item.image}} />
             <Text style={styles.title}>{`$${item.price} ${item.instant ? '🙏' : ''}${item.title}`}</Text>
             <Text>{`${item.ApartmentType} - ${item.bedroom} Bedroom(s)`}</Text>
           </TouchableOpacity>
@@ -97,11 +65,12 @@ class ExploreTab extends Component {
 }
 
 const mapStateToProps = state => ({
-
+  listings: state.listing.listings
 });
 
 const mapDispatchToProps = dispatch => ({
   navigate: (route) => dispatch(navigate(route)),
+  getListings: () => dispatch(getListings()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExploreTab);
