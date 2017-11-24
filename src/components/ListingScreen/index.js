@@ -9,12 +9,15 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import FlisterButton from '../Shared/FlisterButton';
 
 import { getListing } from '../../actions/listing';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
+    marginBottom: 40,
   },
   image: {
     width: Dimensions.get('window').width,
@@ -37,6 +40,25 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
+  about: {
+    paddingBottom: 20,
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E2E2E2',
+  },
+  aboutText: {
+    fontWeight: 'bold',
+  },
+  bookingBar: {
+    position: 'absolute',
+    bottom: 0,
+    padding: 15,
+    flexDirection: 'row',
+    borderTopWidth: 1,
+    borderTopColor: '#E2E2E2',
+    backgroundColor: 'white',
+    alignItems: 'center',
+  }
 });
 
 class ListingScreen extends Component {
@@ -48,19 +70,53 @@ class ListingScreen extends Component {
     const listing = this.props.listing;
     if(!listing) return null;
 
-    const { image, host } = listing;
+    const { image, host, bedroom, bathroom, accomodate, summary, price } = listing;
 
     const item = this.props.navigation.state.params.item;
     return (
-      <ScrollView style= {styles.container}>
-        <Image source = {{uri: image}} style = {styles.image} />
-        <View style = {{padding: 30}}>
-          <View style = {styles.row}>
-            <Text style = {{flex: 1}}>{`Listed By ${host.full_name}`}</Text>
-            <Image source={{uri: host.avatar}} style = {styles.avatar} />
+      <View style={{flex: 1}}>
+        <ScrollView style= {styles.container}>
+          <Image source = {{uri: image}} style = {styles.image} />
+          <View style = {{padding: 30}}>
+            <View style = {styles.row}>
+              <Text style = {{flex: 1}}>{`Listed By ${host.full_name}`}</Text>
+              <Image source={{uri: host.avatar}} style = {styles.avatar} />
+            </View>
+
+            <View style = {styles.row}>
+              <View style = {styles.info}>
+                <Icon name='ios-people-outline' size={40}/>
+                <Text>{accomodate} guest(s)</Text>
+              </View>
+              <View style = {styles.info}>
+                <Icon name='ios-alarm-outline' size={40}/>
+                <Text>{bedroom} bedroom(s)</Text>
+              </View>
+              <View style = {styles.info}>
+                <Icon name='ios-home-outline' size={40}/>
+                <Text>{bathroom} bathroom(s)</Text>
+              </View>
+            </View>
+
+            <View style = {styles.about}>
+              <Text style= {styles.aboutText}>About This Listing</Text>
+              <Text>{summary}</Text>
+            </View>
           </View>
+        </ScrollView>
+
+        <View style={styles.bookingBar}>
+          <Text style={{ flex: 1 }}>
+            <Text style={{ fontWeight: 'bold' }}>{`$${price}`}</Text> per night
+          </Text>
+          <FlisterButton
+              onPress = { () => { this.onCheckAvailability()} }
+              backgroundColor = '#FF5A60'
+              textColor = 'white'
+              label = 'Check Availability'
+            />
         </View>
-      </ScrollView>
+      </View>
     );
   }
 }
