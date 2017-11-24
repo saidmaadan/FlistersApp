@@ -7,6 +7,7 @@ import { addNavigationHelpers, StackNavigator, TabNavigator, NavigationActions }
 import ExploreTab from '../components/MainScreen/ExploreTab';
 import ProfileTab from '../components/MainScreen/ProfileTab';
 import ListingScreen from '../components/ListingScreen';
+import AuthenticationScreen from '../components/AuthenticationScreen';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -50,6 +51,12 @@ export const MainScreen = TabNavigator({
 }, tabConfig);
 
 export const AppNavigator = StackNavigator({
+  Authentication: {
+    screen: AuthenticationScreen,
+    navigationOptions: {
+      header: null,
+    }
+  },
   Main: {
     screen: MainScreen,
     navigationOptions: {
@@ -87,7 +94,7 @@ class AppWithNavigationState extends Component {
     const { dispatch, nav } = this.props;
     return (
       <View style={{ flex: 1 }}>
-        <StatusBar backgroundColor="#000"/>
+        <StatusBar backgroundColor="#00787F"/>
         <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav })} />
       </View>
     );
