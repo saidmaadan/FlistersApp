@@ -79,7 +79,7 @@ class ListingScreen extends Component {
           <Image source = {{uri: image}} style = {styles.image} />
           <View style = {{padding: 30}}>
             <View style = {styles.row}>
-              <Text style = {{flex: 1}}>{`Listed By ${host.full_name}`}</Text>
+              <Text style = {{flex: 1}}>{`Listed By ${host.full_name} `}</Text>
               <Image source={{uri: host.avatar}} style = {styles.avatar} />
             </View>
 

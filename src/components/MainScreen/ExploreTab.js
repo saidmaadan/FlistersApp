@@ -55,7 +55,7 @@ class ExploreTab extends Component {
           <TouchableOpacity onPress={() => this.onPress(item)} style={styles.item}>
             <Image style={styles.image} source = {{uri: item.image}} />
             <Text style={styles.title}>{`$${item.price} ${item.instant ? '🙏' : ''}${item.title}`}</Text>
-            <Text>{`${item.ApartmentType} - ${item.bedroom} Bedroom(s)`}</Text>
+            <Text>{`${item.apartment_type} - ${item.bedroom} Bedroom(s)`}</Text>
           </TouchableOpacity>
         }
         keyExtractor={(item, index) => item.id}

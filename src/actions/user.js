@@ -1,13 +1,31 @@
 
 import { HOST } from '../constants';
 import { resetRoute } from './nav';
+import { normalizeProfile } from '../utils';
+import { BackHandler } from 'react-native';
 
 export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN';
+export const SET_PROFILE = 'SET_PROFILE';
+export const SET_PAYMENT = 'SET_PAYMENT';
 
 export function setAccessToken(accessToken) {
   return {
     type: SET_ACCESS_TOKEN,
     accessToken,
+  };
+}
+
+export function setProfile(profile) {
+  return {
+    type: SET_PROFILE,
+    profile,
+  };
+}
+
+export function setPayment(payment) {
+  return {
+    type: SET_PAYMENT,
+    payment,
   };
 }
 
@@ -26,8 +44,8 @@ export function loginWithFacebook(facebookAccessToken) {
 
       if (json.access_token) {
         dispatch(setAccessToken(json.access_token));
-        // dispatch(setProfile(normalizeProfile(json.email, json.full_name, json.image)));
-        // dispatch(setPayment(!!json.stripe_id));
+        dispatch(setProfile(normalizeProfile(json.email, json.first_name, json.last_name, json.image)));
+        dispatch(setPayment(!!json.stripe_id));
         dispatch(resetRoute({ routeName: 'Main' }));
       } else {
         alert(json.error);
@@ -38,7 +56,14 @@ export function loginWithFacebook(facebookAccessToken) {
 }
 
 export function logout() {
-  return (dispatch) => {
-    setTimeout(() => dispatch(setAccessToken(null)), 1000);
+  return (dispatch, getState) => {
+    const accessToken = getState().user.accessToken;
+    dispatch(setAccessToken(null));
+    dispatch(setProfile(null));
+    dispatch(setPayment(null));
+
+    fetch(`${HOST}/api/v1/logout?access_token=${accessToken}`)
+    .then(response => BackHandler.exitApp())
+    .catch(e => BackHandler.exitApp());
   };
 }
