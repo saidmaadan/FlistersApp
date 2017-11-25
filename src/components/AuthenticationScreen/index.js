@@ -8,9 +8,8 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-
-// import { loginWithFacebook } from '../../actions/user';
-// import { LoginManager, AccessToken } from 'react-native-fbsdk';
+import { loginWithFacebook } from '../../actions/user';
+import { LoginManager, AccessToken } from 'react-native-fbsdk';
 // import { resetRoute } from '../../actions/nav';
 
 const styles = StyleSheet.create({
@@ -55,23 +54,23 @@ class AuthenticationScreen extends Component {
   onFBAuth() {
     console.log("Facebook Login");
 
-    // LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(
-    //   // function(result) {
-    //   (result) => {
-    //     if (result.isCancelled) {
-    //       alert('Login cancelled');
-    //     } else {
-    //       AccessToken.getCurrentAccessToken()
-    //       .then(data => {
-    //         // alert(data.accessToken.toString())
-    //         this.props.loginWithFacebook(data.accessToken.toString())
-    //       })
-    //     }
-    //   },
-    //   function(error) {
-    //     alert('Login fail with error: ' + error);
-    //   }
-    // );
+    LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(
+      // function(result) {
+      (result) => {
+        if (result.isCancelled) {
+          alert('Login cancelled');
+        } else {
+          AccessToken.getCurrentAccessToken()
+          .then(data => {
+            //  alert(data.accessToken.toString())
+            this.props.loginWithFacebook(data.accessToken.toString())
+          })
+        }
+      },
+      function(error) {
+        alert('Login fail with error: ' + error);
+      }
+    );
   }
 
   render() {
@@ -93,10 +92,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  login: (name) => dispatch(login(name)),
-  logout: () => dispatch(logout()),
-  // loginWithFacebook: (facebookAccessToken) => dispatch(loginWithFacebook(facebookAccessToken)),
-  // resetRoute: (route) => dispatch(resetRoute(route)),
+  loginWithFacebook: (facebookAccessToken) => dispatch(loginWithFacebook(facebookAccessToken)),
+  //resetRoute: (route) => dispatch(resetRoute(route)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthenticationScreen);
