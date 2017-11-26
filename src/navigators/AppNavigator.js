@@ -8,6 +8,8 @@ import ExploreTab from '../components/MainScreen/ExploreTab';
 import ProfileTab from '../components/MainScreen/ProfileTab';
 import ListingScreen from '../components/ListingScreen';
 import AuthenticationScreen from '../components/AuthenticationScreen';
+import FilterModal from '../components/FilterModal';
+
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -68,6 +70,16 @@ export const AppNavigator = StackNavigator({
     navigationOptions: (props) =>({
       title: props.navigation.state.params.item.title,
     })
+  },
+  Filter: {
+    screen: FilterModal,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#007B7F',
+        elevation: 0,
+      },
+      headerTintColor: '#E2E2E2',
+    }
   },
 });
 

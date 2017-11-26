@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Flisters</string>
-    <string name="facebook_app_id">FB_KEY</string>
+    <string name="facebook_app_id">KEY_FB</string>
 </resources>

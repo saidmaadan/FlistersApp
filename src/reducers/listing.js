@@ -1,8 +1,13 @@
-import { SET_LISTINGS, SET_LISTING } from '../actions/listing';
+import { SET_LISTINGS, SET_LISTING, SET_FILTER } from '../actions/listing';
 
 const initialState = {
   listings: [],
   listing: null,
+  filter: {
+    address: '',
+    startDate: '',
+    endDate: ''
+  }
 };
 
 export default function(state = initialState, action){
@@ -19,5 +24,13 @@ export default function(state = initialState, action){
       listing: action.listing
     }
   }
+
+  if (action.type === SET_FILTER) {
+    return {
+      ...state,
+      filter: action.filter
+    }
+  }
+
   return state;
 }
