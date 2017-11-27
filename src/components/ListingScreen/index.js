@@ -13,6 +13,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import FlisterButton from '../Shared/FlisterButton';
 
 import { getListing } from '../../actions/listing';
+import { navigate } from '../../actions/nav';
 
 const styles = StyleSheet.create({
   container: {
@@ -62,9 +63,14 @@ const styles = StyleSheet.create({
 });
 
 class ListingScreen extends Component {
+
   componentWillMount(){
     const selectedListingId = this.props.navigation.state.params.item.id;
     this.props.getListing(selectedListingId);
+  }
+
+  onCheckAvailability() {
+    this.props.navigate({ routeName: 'Booking' });
   }
   render() {
     const listing = this.props.listing;
@@ -127,6 +133,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getListing: (listingId) => dispatch(getListing(listingId)),
+  navigate: (route) => dispatch(navigate(route)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListingScreen);
